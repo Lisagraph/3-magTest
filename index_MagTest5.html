@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>magnifier</title>
+<link href="style_MagTest5.css" rel="stylesheet" type="text/css">
+</head>
+  <body>
+    
+<!-- scrSpaceCol start -->
+<div class="scrSpaceCol1"></div>
+<!-- scrSpaceCol end -->      
+  
+<!-- scrSpaceCol2 start -->
+<div class="scrSpaceCol2">
+
+<!-- BN banner start -->
+<button class="paraCon" style="background: transparent; border: none; padding: 15px 20px;"> 
+
+  <!-- qualSliderBN start -->
+  <div id="qualSliderBN" class="qualSliderBN">
+
+    <!-- qualWrapperBN start -->
+    <div class="qualWrapperBN">
+
+        <!-- qualSlideBN banner start -->
+        <div class="qualSlideBN">
+
+          <!-- ConCardBN start -->
+          <div class="ConCardBN">
+
+            <!-- mobMRECBNbanner start -->  
+            <div class="mobMRECBNbanner">     
+
+              <style>
+
+/*Necessary for class*/
+.magnify{
+  border-radius: 50%;
+  border: 2px solid fff;
+  position: absolute;
+  z-index: 20;
+  background-repeat: no-repeat;
+  border: 3px #fff solid;
+  box-shadow: inset 0 0 20px rgba(0, 19, 93, 0.5);
+  cursor: none;
+  background: rgba( 255, 255, 255, 0.01);
+	backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.magImage{
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+
+</style>
+
+<img src="https://lisagraph.github.io/1-magIconsSVG/EquitseMagnifyingBanner.svg" width="450px" height="450px">
+
+
+
+</div>
+<!-- mobMRECBNbanner end -->
+
+</div>
+<!-- ConCardBN end -->
+
+</div>
+<!-- qualSlideBN banner end -->
+
+</div>
+<!-- qualWrapperBN end -->
+
+</div>
+<!-- qualSliderBN end -->
+
+</button>
+<!-- BN banner end -->  
+
+</div>
+<!-- scrSpaceCol2 end -->
+
+<!-- scrSpaceCol3 start -->
+<div class="scrSpaceCol3"></div>
+<!-- scrSpaceCol3 end -->
+
+
+<script>
+HTMLImageElement.prototype.zoomer = function(magnification, magnifierSize) {
+  var imgTarget = this,
+    targetStyle = imgTarget.style,
+    creeLoupe = function(e) {
+      var bodyElt = document.body,
+        loupe = bodyElt.appendChild( document.createElement('div') ),
+        styleLoupe = loupe.style,
+        bBox = imgTarget.getBoundingClientRect(),     
+        imagePos = {
+            top: bBox.top + bodyElt.scrollTop,
+            left: bBox.left + bodyElt.scrollLeft
+        },
+        magnifyOffset = parseInt( magnifierSize ) / 2,
+        [ rightSide, bottomSide ] = [ +(imagePos.left + imgTarget.width), +(imagePos.top + imgTarget.height) ],
+        moveLoupe = function(e) {
+
+          if ( e.pageX < +(imagePos.left - magnifyOffset / 6) 
+            || e.pageX > +(rightSide + magnifyOffset / 6) 
+            || e.pageY < +(imagePos.top - magnifyOffset / 6) 
+            || e.pageY > +(bottomSide + magnifyOffset / 6)) {
+            bodyElt.removeChild( loupe );
+            document.removeEventListener('mousemove', moveLoupe);
+          } else {
+            [styleLoupe.left, styleLoupe.top] = [e.pageX, e.pageY].map( n => `${n - magnifyOffset}px` );
+            styleLoupe.backgroundPosition = [e.pageX - imagePos.left, e.pageY - imagePos.top].map( x => `${ -x * magnification + magnifyOffset / 2 }px` ).join(' ');
+          }
+        };
+      
+      loupe.classList.add('magnify');
+      
+      styleLoupe.backgroundSize = [imgTarget.width, imgTarget.height].map( x => `${x * magnification}px` ).join(' ');
+      styleLoupe.backgroundImage = `url(${imgTarget.src})`;
+      [styleLoupe.width, styleLoupe.height] = [magnifierSize, magnifierSize];
+
+      document.addEventListener('mousemove', moveLoupe);
+
+      return loupe;
+    };
+  
+  this.addEventListener('mouseover', creeLoupe);
+  
+  return this;
+}
+
+window.addEventListener( 'load', e => document.querySelector('img').zoomer( 26, '300px' ) );
+
+</script>
+  </body>
+</html>
